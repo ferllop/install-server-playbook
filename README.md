@@ -7,8 +7,8 @@ These Ansible playbooks are made to help install secure Linux servers faster.
 1. Install [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 2. git clone this repository
   ```
-  git clone https://github.com/moltenbit/How-To-Secure-A-Linux-Server-With-Ansible
-  cd How-To-Secure-A-Linux-Server-With-Ansible
+  git clone https://github.com/ferllop/install-server-playbook
+  cd install-server-playbook
   ```
  
 4. [Create SSH-Public/Private-Keys](https://github.com/imthenachoman/How-To-Secure-A-Linux-Server#ssh-publicprivate-keys)
@@ -16,8 +16,8 @@ These Ansible playbooks are made to help install secure Linux servers faster.
   ssh-keygen -t ed25519
   ```
    
-5. Change all variables in *group_vars/variables.yml* according to your needs.
-6. Enable SSH root access before running the playbooks:
+5. Copy *group_vars/variables.example.yml* to *group_vars/variables.yml* and change all the variables according to your needs.
+6. Enable SSH root access on servers before running the playbooks:
    
   ```
   nano /etc/ssh/sshd_config
@@ -27,27 +27,23 @@ These Ansible playbooks are made to help install secure Linux servers faster.
   ```
 
 7. Recommended: configure static IP address on your system.
-8. Add your systems IP address to *hosts.yml*.
+8. Copy *hosts.example.yml* to *hosts.yml* and add there your systems IP address.
 
-&nbsp;
 
 Run the requirements playbook using the root password you specified while installing the server:
 
     ansible-playbook --inventory hosts.yml --ask-pass requirements-playbook.yml
 
-&nbsp;
 
 Run the main playbook with the new users password you specified in the *variables.yml* file:
 
-    ansible-playbook --inventory hosts.yml --ask-pass main-playbook.yml
+    ansible-playbook --inventory hosts.yml --ask-become-pass main-playbook.yml
 
-&nbsp;
 
 If you need to run the playbooks multiple times remember to use the SSH key and the new SSH port:
 
-    ansible-playbook --inventory hosts.yml -e ansible_ssh_port=SSH_PORT --key-file /PATH/TO/SSH/KEY main-playbook.yml
+    ansible-playbook --inventory hosts.yml -e ansible_ssh_port=SSH_PORT --key-file /PATH/TO/SSH/KEY --ask-become-pass main-playbook.yml
 
-&nbsp;
 
 Tested on Debian 12 Bookworm.
 

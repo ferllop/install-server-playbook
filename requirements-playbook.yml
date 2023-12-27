@@ -1,6 +1,7 @@
     - name: Requirements-Playbook
-      hosts: debian-server
+      hosts: debianserver
       remote_user: root
+      connection: paramiko
       vars_files: ./group_vars/variables.yml
 
       roles:

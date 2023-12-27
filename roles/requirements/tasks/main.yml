@@ -45,6 +45,7 @@
         mode: 0440
         create: yes
         validate: 'visudo -cf %s'
+      tags: never
 
     - name: add authorized keys for new user
       authorized_key:
